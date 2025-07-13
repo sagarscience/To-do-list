@@ -1,0 +1,77 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.header, .footer {
+  text-align: center;
+  background: #007bff;
+  color: white;
+  padding: 1em 0;
+}
+
+.main-container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.task-form, .filter-form {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.task-form input, .task-form select,
+.filter-form select {
+  flex: 1;
+  padding: 0.6em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.task-form button, .inline-form button {
+  padding: 0.6em 1.2em;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  background: #218838;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e1f5fe;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+
+.inline-form {
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.inline-form input {
+  padding: 0.3em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
