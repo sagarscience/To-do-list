@@ -1,3 +1,4 @@
+/* General Page Styling */
 body {
   font-family: Arial, sans-serif;
   background: #f4f4f4;
@@ -21,6 +22,7 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+/* Forms */
 .task-form, .filter-form {
   display: flex;
   gap: 0.5em;
@@ -49,29 +51,54 @@ body {
   background: #218838;
 }
 
+/* Task List */
 .task-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .task-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   background: #e1f5fe;
-  padding: 0.5em;
+  padding: 0.5em 1em;
   margin-bottom: 0.5em;
   border-radius: 4px;
-  flex-wrap: wrap;
+  gap: 1em;
 }
 
-.inline-form {
-  display: inline-block;
-  margin-left: 0.5em;
+/* Left section (checkbox + name) */
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  flex-grow: 1;
 }
 
+/* Right section (edit, delete) */
+.task-actions {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+/* Checkbox alignment fix */
+.checkbox-form {
+  margin: 0;
+}
+
+/* Edit input */
 .inline-form input {
   padding: 0.3em;
   border-radius: 4px;
   border: 1px solid #ccc;
+  width: 100px;
+}
+
+/* Strikethrough completed */
+.completed {
+  text-decoration: line-through;
+  color: gray;
 }

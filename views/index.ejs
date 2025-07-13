@@ -12,7 +12,7 @@
   </header>
 
   <main class="main-container">
-    <!-- Task Form -->
+    <!-- Add Task -->
     <form action="/add" method="POST" class="task-form" onsubmit="return validateForm()">
       <input type="text" name="task" id="taskInput" placeholder="Enter a task..." />
       <select name="priority">
@@ -23,7 +23,7 @@
       <button type="submit">+</button>
     </form>
 
-    <!-- Filter Form -->
+    <!-- Filter -->
     <form action="/" method="GET" class="filter-form">
       <label>Filter by Priority:</label>
       <select name="priority" onchange="this.form.submit()">
@@ -36,16 +36,28 @@
 
     <!-- Task List -->
     <ul class="task-list">
-      <% tasks.forEach((task, index) => { %>
+      <% tasks.forEach((task) => { %>
         <li class="task-item">
-          <span><%= task.name %> (<%= task.priority %>)</span>
-          <form action="/edit/<%= index %>" method="POST" class="inline-form">
-            <input type="text" name="newTask" placeholder="Edit..." required />
-            <button type="submit">✏️</button>
-          </form>
-          <form action="/delete/<%= index %>" method="POST" class="inline-form">
-            <button type="submit">🗑️</button>
-          </form>
+          <!-- Left: Task text -->
+          <div class="task-left">
+            <form action="/toggle/<%= task._id %>" method="POST" class="checkbox-form">
+              <input type="checkbox" onchange="this.form.submit()" <%= task.completed ? "checked" : "" %> />
+            </form>
+            <span class="<%= task.completed ? 'completed' : '' %>">
+              <%= task.name %> (<%= task.priority %>)
+            </span>
+          </div>
+
+          <!-- Right: Actions -->
+          <div class="task-actions">
+            <form action="/edit/<%= task._id %>" method="POST" class="inline-form">
+              <input type="text" name="newTask" placeholder="Edit..." />
+              <button type="submit">✏️</button>
+            </form>
+            <form action="/delete/<%= task._id %>" method="POST" class="inline-form">
+              <button type="submit">🗑️</button>
+            </form>
+          </div>
         </li>
       <% }) %>
     </ul>
