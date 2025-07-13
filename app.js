@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 // Initialize express app
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
 mongoose
@@ -86,6 +86,6 @@ app.post("/toggle/:id", async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running: http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
