@@ -6,18 +6,16 @@ import { fileURLToPath } from "url";
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 // Setup for ES Module paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Initialize express app
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB error:", err));
 
@@ -38,10 +36,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Home route (GET) with filter & sort
+// Home route (GET)
 app.get("/", async (req, res) => {
   const filter = req.query.priority || "All";
-
   const query = filter === "All" ? {} : { priority: filter };
 
   try {
@@ -52,7 +49,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Add task (POST)
+// Add task
 app.post("/add", async (req, res) => {
   const { task, priority } = req.body;
   if (task.trim()) {
@@ -61,7 +58,7 @@ app.post("/add", async (req, res) => {
   res.redirect("/");
 });
 
-// Edit task (POST)
+// Edit task
 app.post("/edit/:id", async (req, res) => {
   const { id } = req.params;
   const { newTask } = req.body;
@@ -71,13 +68,13 @@ app.post("/edit/:id", async (req, res) => {
   res.redirect("/");
 });
 
-// Delete task (POST)
+// Delete task
 app.post("/delete/:id", async (req, res) => {
   await Task.findByIdAndDelete(req.params.id);
   res.redirect("/");
 });
 
-// Toggle checkbox (POST)
+// Toggle completion
 app.post("/toggle/:id", async (req, res) => {
   const task = await Task.findById(req.params.id);
   task.completed = !task.completed;
@@ -87,5 +84,5 @@ app.post("/toggle/:id", async (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running: http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

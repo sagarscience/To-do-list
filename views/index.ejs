@@ -17,7 +17,7 @@
       <input type="text" name="task" id="taskInput" placeholder="Enter a task..." />
       <select name="priority">
         <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
+        <option value="Medium" selected>Medium</option>
         <option value="High">High</option>
       </select>
       <button type="submit">+</button>
@@ -38,7 +38,7 @@
     <ul class="task-list">
       <% tasks.forEach((task) => { %>
         <li class="task-item">
-          <!-- Left: Task text -->
+          <!-- Left -->
           <div class="task-left">
             <form action="/toggle/<%= task._id %>" method="POST" class="checkbox-form">
               <input type="checkbox" onchange="this.form.submit()" <%= task.completed ? "checked" : "" %> />
@@ -48,7 +48,7 @@
             </span>
           </div>
 
-          <!-- Right: Actions -->
+          <!-- Actions -->
           <div class="task-actions">
             <form action="/edit/<%= task._id %>" method="POST" class="inline-form">
               <input type="text" name="newTask" placeholder="Edit..." />
