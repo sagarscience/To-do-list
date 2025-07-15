@@ -2,7 +2,7 @@
 
 ## 🚀 Live Demo
 
-- 🔗 [Live Render Deployment]([https://your-render-link.onrender.com](https://to-do-list-ahfo.onrender.com/))
+- 🔗 [Live Render Deployment](https://to-do-list-ahfo.onrender.com/)
 
 ---
 
