@@ -1,88 +1,66 @@
-// Import required packages
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-// Setup for ES Module paths
+// For ES Modules path resolution
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialize express app
+// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Connected to MongoDB"))
-  .catch((err) => console.error("❌ MongoDB error:", err));
+  .then(() => console.log("✅ Connected to MongoDB Atlas"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-// Define task schema
+// Schema & Model
 const taskSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  priority: { type: String, enum: ["High", "Medium", "Low"], default: "Medium" },
-  completed: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
+  title: { type: String, required: true },
+  priority: { type: String, enum: ["Urgent", "High", "Low"], default: "Low" },
+  createdAt: { type: Date, default: Date.now }
 });
 
-// Create Task model
 const Task = mongoose.model("Task", taskSchema);
 
-// Middleware
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// Middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-// Home route (GET)
+// Routes
 app.get("/", async (req, res) => {
-  const filter = req.query.priority || "All";
-  const query = filter === "All" ? {} : { priority: filter };
-
-  try {
-    const tasks = await Task.find(query).sort({ completed: 1, priority: 1, createdAt: -1 });
-    res.render("index", { tasks, filter });
-  } catch (err) {
-    res.status(500).send("❌ Failed to load tasks");
-  }
+  const tasks = await Task.find().sort({ createdAt: -1 });
+  const msg = req.query.msg || null;
+  res.render("index", { tasks, msg });
 });
 
-// Add task
 app.post("/add", async (req, res) => {
-  const { task, priority } = req.body;
-  if (task.trim()) {
-    await Task.create({ name: task.trim(), priority });
-  }
-  res.redirect("/");
+  const { title, priority } = req.body;
+  if (!title.trim()) return res.redirect("/?msg=Task%20title%20cannot%20be%20empty");
+  await Task.create({ title: title.trim(), priority });
+  res.redirect("/?msg=Task%20added%20successfully");
 });
 
-// Edit task
 app.post("/edit/:id", async (req, res) => {
   const { id } = req.params;
-  const { newTask } = req.body;
-  if (newTask.trim()) {
-    await Task.findByIdAndUpdate(id, { name: newTask.trim() });
-  }
-  res.redirect("/");
+  const { updatedTitle, updatedPriority } = req.body;
+  if (!updatedTitle.trim()) return res.redirect("/?msg=Task%20title%20cannot%20be%20empty");
+  await Task.findByIdAndUpdate(id, { title: updatedTitle.trim(), priority: updatedPriority });
+  res.redirect("/?msg=Task%20updated%20successfully");
 });
 
-// Delete task
 app.post("/delete/:id", async (req, res) => {
   await Task.findByIdAndDelete(req.params.id);
-  res.redirect("/");
+  res.redirect("/?msg=Task%20deleted%20successfully");
 });
 
-// Toggle completion
-app.post("/toggle/:id", async (req, res) => {
-  const task = await Task.findById(req.params.id);
-  task.completed = !task.completed;
-  await task.save();
-  res.redirect("/");
-});
-
-// Start server
+// Start Server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running: http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

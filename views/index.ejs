@@ -3,59 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Todo List</title>
+  <title>Task Manager</title>
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
   <header class="header">
-    <h1>📝 Todo List</h1>
+    <h1>📋 Task Manager</h1>
   </header>
 
   <main class="main-container">
-    <!-- Add Task -->
-    <form action="/add" method="POST" class="task-form" onsubmit="return validateForm()">
-      <input type="text" name="task" id="taskInput" placeholder="Enter a task..." />
-      <select name="priority">
-        <option value="Low">Low</option>
-        <option value="Medium" selected>Medium</option>
-        <option value="High">High</option>
-      </select>
-      <button type="submit">+</button>
-    </form>
+    <% if (msg) { %>
+      <div class="alert"><%= decodeURIComponent(msg) %></div>
+    <% } %>
 
-    <!-- Filter -->
-    <form action="/" method="GET" class="filter-form">
-      <label>Filter by Priority:</label>
-      <select name="priority" onchange="this.form.submit()">
-        <option value="All" <%= filter === "All" ? "selected" : "" %>>All</option>
-        <option value="Low" <%= filter === "Low" ? "selected" : "" %>>Low</option>
-        <option value="Medium" <%= filter === "Medium" ? "selected" : "" %>>Medium</option>
-        <option value="High" <%= filter === "High" ? "selected" : "" %>>High</option>
+    <!-- Add Task -->
+    <form action="/add" method="POST" class="task-form" onsubmit="return validateForm('taskInput')">
+      <input type="text" name="title" id="taskInput" placeholder="Enter task..." />
+      <select name="priority">
+        <option value="Urgent">Urgent</option>
+        <option value="High">High</option>
+        <option value="Low" selected>Low</option>
       </select>
+      <button type="submit">➕</button>
     </form>
 
     <!-- Task List -->
     <ul class="task-list">
       <% tasks.forEach((task) => { %>
         <li class="task-item">
-          <!-- Left -->
-          <div class="task-left">
-            <form action="/toggle/<%= task._id %>" method="POST" class="checkbox-form">
-              <input type="checkbox" onchange="this.form.submit()" <%= task.completed ? "checked" : "" %> />
-            </form>
-            <span class="<%= task.completed ? 'completed' : '' %>">
-              <%= task.name %> (<%= task.priority %>)
-            </span>
-          </div>
-
-          <!-- Actions -->
+          <span><strong><%= task.title %></strong> - <%= task.priority %></span>
           <div class="task-actions">
+            <!-- Edit Form -->
             <form action="/edit/<%= task._id %>" method="POST" class="inline-form">
-              <input type="text" name="newTask" placeholder="Edit..." />
+              <input type="text" name="updatedTitle" placeholder="Edit title..." />
+              <select name="updatedPriority">
+                <option value="Urgent">Urgent</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+              </select>
               <button type="submit">✏️</button>
             </form>
+
+            <!-- Delete Form -->
             <form action="/delete/<%= task._id %>" method="POST" class="inline-form">
-              <button type="submit">🗑️</button>
+              <button type="submit" onclick="return confirm('Delete this task?')">🗑️</button>
             </form>
           </div>
         </li>
@@ -64,14 +55,14 @@
   </main>
 
   <footer class="footer">
-    <p>&copy; 2025 Todo App by Sagar Agrawal</p>
+    <p>📌 Task Manager App by Sagar Agrawal – 2025</p>
   </footer>
 
   <script>
-    function validateForm() {
-      const input = document.getElementById("taskInput");
+    function validateForm(inputId) {
+      const input = document.getElementById(inputId);
       if (input.value.trim() === "") {
-        alert("Task cannot be empty!");
+        alert("Task title cannot be empty!");
         return false;
       }
       return true;

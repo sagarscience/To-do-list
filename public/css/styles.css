@@ -1,29 +1,27 @@
-/* General Page Styling */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
   margin: 0;
   padding: 0;
 }
 
 .header, .footer {
-  text-align: center;
   background: #007bff;
-  color: white;
-  padding: 1em 0;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
 }
 
 .main-container {
   max-width: 600px;
-  margin: 30px auto;
+  margin: 20px auto;
   background: #fff;
   padding: 2em;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Forms */
-.task-form, .filter-form {
+.task-form, .inline-form {
   display: flex;
   gap: 0.5em;
   margin-bottom: 1em;
@@ -31,15 +29,15 @@ body {
 }
 
 .task-form input, .task-form select,
-.filter-form select {
+.inline-form input, .inline-form select {
   flex: 1;
-  padding: 0.6em;
-  border-radius: 4px;
+  padding: 0.5em;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .task-form button, .inline-form button {
-  padding: 0.6em 1.2em;
+  padding: 0.5em 1em;
   background: #28a745;
   color: white;
   border: none;
@@ -47,53 +45,35 @@ body {
   cursor: pointer;
 }
 
-.task-form button:hover {
+.task-form button:hover, .inline-form button:hover {
   background: #218838;
 }
 
-/* Task List */
 .task-list {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .task-item {
+  background: #e9f5ff;
+  padding: 0.8em 1em;
+  border-radius: 6px;
+  margin-bottom: 0.8em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #e1f5fe;
-  padding: 0.5em 1em;
-  margin-bottom: 0.5em;
-  border-radius: 4px;
-  gap: 1em;
-}
-
-.task-left {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  flex-grow: 1;
 }
 
 .task-actions {
   display: flex;
   gap: 0.5em;
-  align-items: center;
 }
 
-.checkbox-form {
-  margin: 0;
-}
-
-.inline-form input {
-  padding: 0.3em;
+.alert {
+  background: #d1ecf1;
+  color: #0c5460;
+  padding: 0.8em;
+  margin-bottom: 1em;
+  border: 1px solid #bee5eb;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 100px;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: gray;
 }
