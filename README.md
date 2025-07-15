@@ -44,9 +44,6 @@ The **Todo List Web App** is a dynamic, server-side rendered task management app
 todo-app-ejs/
 │
 ├── views/
-│ ├── partials/
-│ │ ├── header.ejs
-│ │ └── footer.ejs
 │ ├── index.ejs
 │
 ├── public/
